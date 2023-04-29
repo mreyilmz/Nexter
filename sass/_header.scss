@@ -1,0 +1,75 @@
+@use "base" as *;
+
+.header {
+  background-color: $color-grey-dark-1;
+  /* 8 sütun için repeat donk ile isim vermiştik, hebirinin ismi aynı. Header'ın 6. sütunun bitişine kadar gitmesini istediğimiz için col-end 6 yazdık. */
+  grid-column: full-start / col-end 6;
+  background-image: linear-gradient(
+      rgba($color-secondary, 0.93),
+      rgba($color-secondary, 0.93)
+    ),
+    url(/img/hero.jpeg);
+  background-size: cover;
+  /* background-postition=center viewport değişince görselin ortasını merkez almak için gerekli */
+  background-position: center;
+  padding: 8rem;
+  padding-top: 4rem;
+
+  display: grid;
+  /* When you only set up your grid to have just one row at 1fr, that will be the only explicit row you'll have, css grid then places the rest of the items in additional implicit rows that only take up as much space as needed for the content inside. So if you look at it sort of backwards; you have 6 items total, the last 5 items take up only as much space as they need for their individual contents. That leaves the whole rest of the grid to be taken up by the first item. */
+  grid-template-rows: 1fr min-content minmax(6rem, max-content) 1fr;
+  grid-template-columns: minmax(min-content, max-content);
+  row-gap: 1.5rem;
+  justify-content: center;
+
+  @media only screen and (max-width: $bp-medium) {
+    grid-column: full-start / full-end;
+    grid-row: 2/3;
+  }
+
+  @media only screen and (max-width: $bp-small) {
+    padding: 5rem;
+  }
+
+  &__logo {
+    height: 3rem;
+    justify-self: center;
+  }
+
+  &__btn {
+    align-self: start;
+    justify-self: start;
+  }
+
+  &__seenon-text {
+    display: grid;
+    grid-template-columns: 1fr max-content 1fr;
+    align-items: center;
+    gap: 2rem;
+
+    font-size: 1.6rem;
+    color: $color-grey-light-2;
+
+    &::before,
+    &::after {
+      content: "";
+      height: 1px;
+      display: block;
+      background-color: currentColor;
+    }
+  }
+
+  &__seenon-logos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 3rem;
+    justify-items: center;
+    align-items: center;
+
+    img {
+      height: 2.5rem;
+      max-width: 100%;
+      filter: brightness(70%);
+    }
+  }
+}

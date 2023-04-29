@@ -1,0 +1,90 @@
+// COLOR VARIABLES
+$color-primary: #c69963;
+$color-primary-dark: #b28451;
+
+$color-secondary: #101d2c;
+
+$color-grey-light-1: #f9f7f6;
+$color-grey-light-2: #aaa;
+
+$color-grey-dark-1: #54483a;
+$color-grey-dark-2: #6d5d4b;
+
+// FONT VARIABLES
+$font-primary: "Nunito", sans-serif;
+$font-display: "Josefin Sans", sans-serif;
+
+// RESPONSIVE BREAK-POINTS
+
+$bp-largest: 75em; // 1200px
+$bp-large: 62.5em; // 1000px
+$bp-medium: 50em; // 800px
+$bp-small: 37.5em; // 600px
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+
+  @media only screen and (max-width: $bp-largest) {
+    font-size: 50%;
+  }
+}
+
+body {
+  font-family: $font-primary;
+  color: $color-grey-dark-2;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.container {
+  display: grid;
+  /* Hoca burda ileriyi düşünerek responsive uyguladı. sitede 6 tane önemli bölümn var. İlk bölümün yüksekliğini viewport'un yüzden sekseni yaptık. İkinci bölüm'ün yüksekliği content'in sığabileceği kadar olsun dedik. Üçüncü de ise bölimün yüksekliğini viewport'un yüzde 40'ına eşitledik, aspect-ratio'u korumak için. vw düştüğü zaman bölümün yüksekliği de değişecek. Diğer bölümlere de min-content diyerek içerik ne kadarsa o kadar yüksek olsun dedik. min-content yerine auto da yazabilirdik. */
+  grid-template-rows: 80vh min-content 40vw repeat(3, min-content);
+  /* ana içeriğimizin genişliğini 1140px olarak düşündük ve 1140/8 = 142.5px olarak bulduk, yani 14rem. Responsive olması için minmax fonksiyonunu kullandık. Minimum olarak genişlik minimum content, genişlik ise maksimum 14rem olacak, her 8 sütundan biri. Soldaki sidebar için 8remlik bir sütun ayırdık. ana içeriğin ortada, sidebar'ın da solda olmasını istediğimiz için ikisinin arasına ve ana içeriğin soluna 1fr değerinde iki sütun yerleştirdik. 1fr olan sütunlar viewport genişken fazla olan yerleri paylaşacaklar viewpoert küçüldüğünde ise ilk onlar küçülecek. Ayrıca bazı bölümlerde 1fr olan sütıunları da kapsayacak şekilde content olacak bu yöntem ile esnek bir durum da yaratmış olduk. 1. gird çizgisine sidebar-start, ikincisine ise sidebar-end ve full-start olmak üzere iki isim verdik. Çünkü aynı zamanda contentin başladığı yer. Son çizgiye de full-end ismini verdik. 8 sürunun başladğı yer olması sebebiyle 3. sütun çizgisine center-start ismini, bitişine de center-end ismini verdik. repeat içerisine col-start ve col-end isimlerini vererek her bir 8 sütun için başlangıç ve bitiş ismi vermiş olduk. Önemli olan sütunlar old. için satır genelde isimlendirilmiyor.*/
+  grid-template-columns:
+    [sidebar-start] 8rem [sidebar-end full-start] minmax(6rem, 1fr)
+    [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end])
+    [center-end] minmax(6rem, 1fr) [full-end];
+
+  @media only screen and (max-width: $bp-large) {
+    /* Sidebar'ı yukarı aldık */
+    grid-template-rows: 5rem 80vh min-content 40vw repeat(3, min-content);
+    grid-template-columns:
+      [full-start] minmax(6rem, 1fr)
+      [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end])
+      [center-end] minmax(6rem, 1fr) [full-end];
+  }
+
+  @media only screen and (max-width: $bp-medium) {
+    /* Sidebar'ı yukarı aldık, realtors için yeni bir satır ekledik ve calc fonksiyonu ile 100vh - sidebarın yüksekliğini çıkarınca ekranın tamamını kaplamısını sağladık. */
+    /* En sona 6 tane min-content kalmıştı. Grid onları kendi oto olarak content'in yüksekliğine göre halledeceği için grid-template-rows'dan kaldırdık. */
+    grid-template-rows: 5rem calc(100vh - 5rem);
+    grid-template-columns:
+      [full-start] minmax(6rem, 1fr)
+      [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end])
+      [center-end] minmax(6rem, 1fr) [full-end];
+  }
+}
+
+/* Helper Classes */
+.mb-sm {
+  margin-bottom: 2rem;
+}
+.mb-md {
+  margin-bottom: 3rem;
+}
+.mb-lg {
+  margin-bottom: 4rem;
+}
+.mb-hg {
+  margin-bottom: 8rem;
+}

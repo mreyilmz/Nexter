@@ -1,0 +1,41 @@
+@use "base" as *;
+
+.features {
+  /* features merkezde old. için aşağıdaki kodla features'i yerleştirdik. */
+  grid-column: center-start / center-end;
+
+  margin: 15rem 0;
+
+  display: grid;
+  /* grid-template-columns: repeat(3, 1fr); */
+  /* Sütunların minimum genişliğini 25rem yaptık. 25rem'den daha küçük olursa otomatik olarak grid sütun sayısını düşürüp satır sayısını artırmış olacak. Bunun için media queries kullanmaya gerek kalmadı. 25rem'i hoca karar vermiş optimum olduğunu düşünmüş. Güzel bir yöntem */
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  gap: 6rem;
+
+  /* grid default olarak align-items = strecth 'dir. Fakat hücrelerin içindekilerin yükseklikleri aynı olmadığı için texti az olan hücrelerde başlık ve text arasında mesafe artıyordu. Bu yüzden start seçtik */
+  align-items: start;
+}
+
+.feature {
+  display: grid;
+  /* min-content yerine auto da yazabilirdik veya icon'un genişliği olan 4.5rem fakat auto veya min-content daha pratik bir çözüm */
+  grid-template-columns: min-content 1fr;
+  row-gap: 1.5rem;
+  column-gap: 2.5rem;
+
+  &__icon {
+    fill: $color-primary;
+    width: 4.5rem;
+    height: 4.5rem;
+
+    /* span 2 yerine -1 yazamıyoruz. Column gibi row belirtmediğimiz için rowlar implicit oldu. -1 de explicit olduğunda geçerli olduğu için span 2 yazdık. */
+    grid-row: 1 / span 2;
+    transform: translateY(-1rem);
+  }
+
+  &__text {
+    font-size: 1.7rem;
+    grid-column: 2 /-1;
+    grid-row: 2 / 3;
+  }
+}
